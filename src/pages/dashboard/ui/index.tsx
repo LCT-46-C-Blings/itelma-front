@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import ContentBlock from "../../../shared/blocks/ContentBlock";
-import Grid8x4 from "../../../shared/layout/Grid8x4";
+import ContentBlock from "../../../shared/ui/blocks/ContentBlock";
+import Grid8x4 from "../../../shared/ui/layout/Grid8x4";
 import PatientInfo from "../../../widgets/PatientInfo/ui";
 import { example, type Patient } from "../../../entities/patient/types/Patient";
 

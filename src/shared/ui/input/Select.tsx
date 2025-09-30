@@ -14,8 +14,6 @@ export type SelectProps<V> = {
     onChange?: (v: V) => void;
     className?: string;
     itemClassName?: string;
-    getKey?: (v: V) => string | number;
-    widthPx?: number; // ширина контейнера (по макету ~338)
     ariaLabel?: string;
 };
 
@@ -27,8 +25,6 @@ export function Select<V>({
     onChange,
     className = "",
     itemClassName = "",
-    getKey,
-    widthPx = 338,
     ariaLabel,
 }: SelectProps<V>) {
     const [open, setOpen] = useState(false);
@@ -91,8 +87,7 @@ export function Select<V>({
     return (
         <div
             ref={rootRef}
-            className={`relative ${className}`}
-            style={{ width: `${widthPx}px` }}
+            className={`relative ${className} w-full`}
         >
             <button
                 ref={buttonRef}
@@ -136,10 +131,9 @@ export function Select<V>({
             >
                 {options.map((opt, i) => {
                     const isSel = selected !== undefined && Object.is(opt.value, selected);
-                    const key = getKey ? getKey(opt.value) : i;
                     return (
                         <button
-                            key={key}
+                            key={i}
                             role="option"
                             aria-selected={isSel}
                             disabled={opt.disabled}

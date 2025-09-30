@@ -1,63 +1,36 @@
-import { Select, type Option } from "../../../shared/input/Select";
+import { useCallback, useMemo, useState } from "react";
+import type { Appointment } from "../../../entities/appointment/types/Appointment"
+import { Select, type Option } from "../../../shared/ui/input/Select";
+import { timecodeToDate } from "../../../shared/lib/formatDate";
 
-export type Appointment = {
-    id: number;
-    startTime: number; // ms timestamp
-    endTime: number;   // ms timestamp
-};
+const AppointmentSelector: React.FC<{
+    appointments: Appointment[]
+    selectedId: number;
+    onChangeSelectedId: (id: number) => void;
+}> = (({ appointments, selectedId, onChangeSelectedId }) => {
 
-export type AppointmentSelectorProps = {
-    appointments: Appointment[];
-    value?: Appointment;
-    defaultValueId?: number;
-    onChange?: (a: Appointment) => void;
-    locale?: string; // по умолчанию "ru-RU"
-    widthPx?: number;
-    withTime?: boolean; // если true — показываем время
-};
+    const options = useMemo<Option<number>[]>(
+        () =>
+            appointments.map((a: Appointment) => ({
+                value: a.id,
+                label: timecodeToDate(a.startTime / 1000)
+            })),
+        [appointments]
+    );
 
-function fmt(ts: number, locale = "ru-RU", withTime = false) {
-    const d = new Date(ts);
-    const base: Intl.DateTimeFormatOptions = {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
-    };
-    const opt: Intl.DateTimeFormatOptions = withTime
-        ? { ...base, hour: "2-digit", minute: "2-digit" }
-        : base;
-    return d.toLocaleDateString(locale, opt);
-}
-
-export default function AppointmentSelector({
-    appointments,
-    value,
-    defaultValueId,
-    onChange,
-    locale = "ru-RU",
-    widthPx = 338,
-    withTime = false,
-}: AppointmentSelectorProps) {
-    const options: Option<Appointment>[] = appointments.map((a) => ({
-        label: fmt(a.startTime, locale, withTime),
-        value: a,
-    }));
-
-    const defaultValue =
-        defaultValueId !== undefined
-            ? appointments.find((a) => a.id === defaultValueId)
-            : undefined;
+    const handleChange = useCallback(
+        (nextId: number) => onChangeSelectedId(nextId),
+        [onChangeSelectedId]
+    );
 
     return (
-        <Select<Appointment>
+        <Select<number>
+            defaultValue={selectedId}
+            placeholder="Выберите прием"
+            onChange={handleChange}
             options={options}
-            value={value}
-            defaultValue={defaultValue}
-            onChange={(v) => onChange?.(v)}
-            placeholder="Выберите дату"
-            widthPx={widthPx}
-            getKey={(v) => v.id}
-            ariaLabel="Выбор даты записи"
         />
     );
-}
+});
+
+export default AppointmentSelector
