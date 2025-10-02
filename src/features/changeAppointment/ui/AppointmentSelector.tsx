@@ -10,11 +10,17 @@ const AppointmentSelector: React.FC<{
 }> = (({ appointments, selectedId, onChangeSelectedId }) => {
 
     const options = useMemo<Option<number>[]>(
-        () =>
-            appointments.map((a: Appointment) => ({
+        () => {
+            const res = [{
+                value: -1,
+                label: 'Новый прием'
+            }]
+            
+            return res.concat(appointments.map((a: Appointment) => ({
                 value: a.id,
-                label: timecodeToDate(a.startTime / 1000)
-            })),
+                label: timecodeToDate(a.startTime)
+            })))
+        },
         [appointments]
     );
 

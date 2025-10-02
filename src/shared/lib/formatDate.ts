@@ -1,4 +1,6 @@
 export function timecodeToDate(timecode: number): string {
+    console.log(timecode)
+    if (!timecode) return '';
     return new Intl.DateTimeFormat('ru-RU', {
         year: 'numeric',
         month: 'long',
@@ -7,6 +9,8 @@ export function timecodeToDate(timecode: number): string {
 }
 
 export function timecodeToTime(timecode: number): string {
+    console.log(timecode);
+    if (!timecode) return '';
     return new Intl.DateTimeFormat('ru-RU', {
         hour: 'numeric',
         minute: 'numeric'

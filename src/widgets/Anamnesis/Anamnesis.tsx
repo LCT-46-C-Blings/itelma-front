@@ -1,11 +1,17 @@
+import { useMemo } from "react"
+import { usePatientStore } from "../../entities/patient/stores/usePatientStore"
 import Flex from "../../shared/ui/blocks/Flex"
 import ScrollBox from "../../shared/ui/blocks/ScrollBox"
 import Divider from "../../shared/ui/Divider/Divider"
 import Title from "../../shared/ui/Typography/Title"
 
-const Anamnesis: React.FC<{
-    anamnesis: string[]
-}> = ({ anamnesis }) => {
+const Anamnesis: React.FC<{}> = () => {
+
+    const patient = usePatientStore(state => state.patient)
+    if (!patient) return null
+
+    const anamnesis = useMemo(() => patient.anamnesis, [patient.anamnesis])
+
     return (
         <Flex className="flex-col gap-10px">
             <Title order={2}>Анамнез</Title>

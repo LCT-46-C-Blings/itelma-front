@@ -33,6 +33,7 @@ export type DetectorStore = {
 
     allSegments: (FhrSegment | UterusSegment)[];
     getSegmentChartType: (segment: FhrSegment | UterusSegment) => "bpm" | "uterus";
+    clear: () => void
 }
 
 export const useDetectorStore = create<DetectorStore>((set, get) => ({
@@ -45,6 +46,7 @@ export const useDetectorStore = create<DetectorStore>((set, get) => ({
     maxBpm: 0,
     minBpm: 300,
     pushBpmData: (data: BpmData) => {
+        console.log(data)
         set((state: DetectorStore) => {
             if (state.detector) {
                 const seg = state.detector.pushFhr(data);
@@ -129,5 +131,22 @@ export const useDetectorStore = create<DetectorStore>((set, get) => ({
     },
 
     allSegments: [],
-    getSegmentChartType: (segment: FhrSegment | UterusSegment) => "minBpm" in segment ? "bpm" : "uterus"
+    getSegmentChartType: (segment: FhrSegment | UterusSegment) => "minBpm" in segment ? "bpm" : "uterus",
+
+    clear: () => set({
+        detector: undefined,
+        bpmData: [],
+        lastBpmData: undefined,
+        maxBpm: 0,
+        minBpm: 300,
+        uterusData: [],
+        lastUterusData: undefined,
+        maxUterus: 0,
+        minUterus: 300,
+        fhrSegments: [],
+        fhrSegmentsQueue: [],
+        uterusSegments: [],
+        uterusSegmentsQueue: [],
+        allSegments: [],
+    })
 }));
