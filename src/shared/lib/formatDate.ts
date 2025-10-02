@@ -1,3 +1,12 @@
+
+
+/**
+ * Convert a timecode to a date string in the format "dd MMMM yyyy".
+ * A timecode is a number of milliseconds since the Unix epoch.
+ * If the timecode is 0 or undefined, an empty string is returned.
+ * @param {number} timecode - the timecode to convert
+ * @returns {string} - the date string
+ */
 export function timecodeToDate(timecode: number): string {
     console.log(timecode)
     if (!timecode) return '';
@@ -8,6 +17,11 @@ export function timecodeToDate(timecode: number): string {
     }).format(new Date(timecode * 1000));
 }
 
+/**
+ * Formats a timecode (milliseconds since the Unix epoch) to a human-readable time string.
+ * @param {number} timecode - Timecode to format
+ * @returns {string} Formatted time string
+ */
 export function timecodeToTime(timecode: number): string {
     console.log(timecode);
     if (!timecode) return '';

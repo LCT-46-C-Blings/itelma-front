@@ -2,9 +2,12 @@ import { useMemo } from "react"
 import { usePatientStore } from "../../entities/patient/stores/usePatientStore"
 import Flex from "../../shared/ui/blocks/Flex"
 import ScrollBox from "../../shared/ui/blocks/ScrollBox"
-import Divider from "../../shared/ui/Divider/Divider"
 import Title from "../../shared/ui/Typography/Title"
 
+/**
+ * Component for displaying a list of anamnesis from a patient
+ * @returns A Flex component containing a Title and a ScrollBox with a list of anamnesis
+ */
 const Anamnesis: React.FC<{}> = () => {
 
     const patient = usePatientStore(state => state.patient)

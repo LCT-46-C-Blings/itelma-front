@@ -1,5 +1,12 @@
 import Flex from "./Flex"
 
+/**
+ * A component that renders an info block with a white background and rounded corners.
+ *
+ * It displays a label and a value inside the block.
+ * The component accepts a className prop which is used to add additional CSS classes to the component.
+ * The component also accepts labelClassName and valueClassName props which are used to add additional CSS classes to the label and value elements respectively.
+ */
 const InfoBlock: React.FC<{
     value: string
     label: string

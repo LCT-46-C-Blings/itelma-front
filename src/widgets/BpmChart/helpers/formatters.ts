@@ -1,3 +1,9 @@
+
+/**
+ * Format data point for bpm chart.
+ * @param {any} params - data point object.
+ * @returns {string} - formatted string.
+ */
 export function formatBpmTime(params: any) {
     const dataPoint = params[0];
     const time = dataPoint.axisValue;
@@ -8,7 +14,11 @@ export function formatBpmTime(params: any) {
 
     return `Время: ${timeStr}<br/>Пульс: ${pulseStr} уд/мин`;
 }
-
+/**
+ * Format a diagnosis string
+ * @param {Object} params - Object containing the diagnosis data
+ * @returns {string} - Formatted diagnosis string
+ */
 export function formatDiagnosis(params: any) {
     return `
 Диагноз: ${params.data.diagnosis}

@@ -3,6 +3,11 @@ import type { BpmData } from "../types/BpmData";
 import type { CtgLiveDetector, FhrSegment, UterusSegment } from "ctg-live-detector-ts";
 import type { UterusData } from "../types/UterusData";
 
+/**
+ * Store for managing detector data.
+ *
+ * @module detector/stores/useDetectorStore
+ */
 export type DetectorStore = {
     detector: CtgLiveDetector | undefined;
     setDetector: (detector: CtgLiveDetector) => void;
@@ -45,6 +50,11 @@ export const useDetectorStore = create<DetectorStore>((set, get) => ({
     lastBpmData: undefined,
     maxBpm: 0,
     minBpm: 300,
+    /**
+     * Pushes a new BpmData to the store.
+     * If the detector is set, it will also push the new segment to the fhrSegments.
+     * @param {BpmData} data - The new BpmData to push.
+     */
     pushBpmData: (data: BpmData) => {
         console.log(data)
         set((state: DetectorStore) => {
@@ -70,6 +80,11 @@ export const useDetectorStore = create<DetectorStore>((set, get) => ({
     lastUterusData: undefined,
     maxUterus: 0,
     minUterus: 300,
+    /**
+     * Pushes a new UterusData to the store.
+     * If the detector is set, it will also push the new segment to the uterusSegments.
+     * @param {UterusData} data - The new UterusData to push.
+     */
     pushUterusData: (data: UterusData) => {
         set((state: DetectorStore) => {
             if (state.detector) {
@@ -92,6 +107,11 @@ export const useDetectorStore = create<DetectorStore>((set, get) => ({
 
     fhrSegments: [],
     fhrSegmentsQueue: [],
+    /**
+     * Pushes a new FhrSegment to the store.
+     * If the detector is set, it will also push the new segment to the fhrSegments.
+     * @param {FhrSegment} segment - The new FhrSegment to push.
+     */
     pushFhrSegment: (segment: FhrSegment) => set(
         (state: DetectorStore) => {
             return {
@@ -101,6 +121,11 @@ export const useDetectorStore = create<DetectorStore>((set, get) => ({
             }
         }
     ),
+    /**
+     * Pops the first segment from the fhrSegmentsQueue.
+     * If the queue is empty, returns undefined.
+     * @returns {FhrSegment | undefined} - The first segment in the queue, or undefined if the queue is empty.
+     */
     fhrSegmentsQueuePop: () => {
         const queue = get().fhrSegmentsQueue;
         if (queue.length === 0) return undefined;
@@ -112,6 +137,11 @@ export const useDetectorStore = create<DetectorStore>((set, get) => ({
 
     uterusSegments: [],
     uterusSegmentsQueue: [],
+    /**
+     * Pushes a new UterusSegment to the store.
+     * If the detector is set, it will also push the new segment to the uterusSegments.
+     * @param {UterusSegment} segment - The new UterusSegment to push.
+     */
     pushUterusSegment: (segment: UterusSegment) => set(
         (state: DetectorStore) => {
             return {
@@ -121,6 +151,11 @@ export const useDetectorStore = create<DetectorStore>((set, get) => ({
             }
         }
     ),
+    /**
+     * Pops the first segment from the uterusSegmentsQueue.
+     * If the queue is empty, returns undefined.
+     * @returns {UterusSegment | undefined} - The first segment in the queue, or undefined if the queue is empty.
+     */
     uterusSegmentsQueuePop: () => {
         const queue = get().uterusSegmentsQueue;
         if (queue.length === 0) return undefined;
@@ -133,6 +168,10 @@ export const useDetectorStore = create<DetectorStore>((set, get) => ({
     allSegments: [],
     getSegmentChartType: (segment: FhrSegment | UterusSegment) => "minBpm" in segment ? "bpm" : "uterus",
 
+    /**
+     * Resets the store to its initial state.
+     * This function clears all the data in the store, including the detector, BpmData, UterusData, FhrSegments, UterusSegments, and their respective queues.
+     */
     clear: () => set({
         detector: undefined,
         bpmData: [],

@@ -22,6 +22,16 @@ type Options = {
 };
 
 
+/**
+ * Establishes a WebSocket connection to the given URL and calls
+ * `onData` whenever a message is received from the server.
+ *
+ * @param {Channel} channel - The channel to connect to, either "fhr" or "uc"
+ * @param {(ev: IncomingEvent) => void} onData - A callback function to be called
+ * whenever a message is received from the server
+ * @param {Options} options - Optional parameters for the connection
+ * @returns {{ connected: boolean, disconnect: () => void, reconnect: () => void, socketRef: React.MutableRefObject<Socket | null> }}
+ */
 export function useWebSocket(
     channel: Channel,
     onData: (ev: IncomingEvent) => void,
@@ -36,16 +46,13 @@ export function useWebSocket(
     const socketRef = useRef<Socket | null>(null);
     const [connected, setConnected] = useState(false);
 
-    // Полный URL неймспейса: /ws/records/fhr или /ws/records/uc
     const namespaceUrl = useMemo(
         () => `${baseUrl.replace(/\/+$/, "")}/ws/records/${channel}`,
         [baseUrl, channel]
     );
 
-    // Готовим query для хэндшейка
     const query = useMemo(() => {
         const q: Record<string, string> = {
-            // сервер ждёт именно "visit_id"
             visit_id: String(visitId),
         };
         if (loop) q.loop = "true";
@@ -58,11 +65,9 @@ export function useWebSocket(
     }, [visitId, loop, extraQuery]);
 
     useEffect(() => {
-        // создаём соединение с конкретным namespace
         const socket = io(namespaceUrl, {
             transports,
             query,
-            // при желании можно подкрутить backoff:
             reconnection: true,
             reconnectionAttempts: Infinity,
             reconnectionDelay: 500,
@@ -72,7 +77,6 @@ export function useWebSocket(
 
         socketRef.current = socket;
 
-        // --- стандартные события сокета
         socket.on("connect", () => {
             setConnected(true);
         });
@@ -91,7 +95,6 @@ export function useWebSocket(
             onData({ type: "error", message: "connect_error", payload: err?.message ?? err });
         });
 
-        // --- доменные события вашего сервера
         socket.on("error", (payload: any) => {
             const message =
                 (payload && (payload.message || payload.error)) || "unknown_error";
@@ -109,19 +112,16 @@ export function useWebSocket(
             }
         });
 
-        // Снапшот: '<channel>:snapshot'
         socket.on(`${channel}:snapshot`, (payload: { items: WSItem[] }) => {
             onData({ type: "snapshot", items: payload?.items ?? [] });
         });
 
-        // Новые данные: '<channel>:new'
         socket.on(`${channel}:new`, (payload: WSItem) => {
             if (payload && typeof payload.timestamp === "number") {
                 onData({ type: "new", item: payload });
             }
         });
 
-        // Очистка при размонтировании/смене параметров
         return () => {
             try {
                 socket.removeAllListeners();
@@ -132,7 +132,6 @@ export function useWebSocket(
         };
     }, [namespaceUrl, transports, query, channel, onData]);
 
-    // Управляющие методы по желанию
     const disconnect = () => {
         socketRef.current?.disconnect();
     };

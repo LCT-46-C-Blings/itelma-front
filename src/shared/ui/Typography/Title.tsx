@@ -1,4 +1,10 @@
 
+/**
+ * A Title component.
+ * @param {number} [order] - The order of the title element, defaults to 1.
+ * @param {React.ReactNode} [children] - The content of the title element.
+ * @returns {React.ReactElement} - The rendered title element.
+ */
 const Title: React.FC<{
     order?: 1 | 2 | 3 | 4 | 5 | 6
     children?: React.ReactNode

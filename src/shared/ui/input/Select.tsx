@@ -17,6 +17,20 @@ export type SelectProps<V> = {
     ariaLabel?: string;
 };
 
+/**
+ * Select component with dropdown list.
+ *
+ * @param {Option<V>[]} options - An array of options to select from.
+ * @param {V} [value] - The currently selected value.
+ * @param {V} [defaultValue] - The default value if no value provided.
+ * @param {string} [placeholder] - The placeholder when no value provided.
+ * @param {(v: V) => void} [onChange] - The callback when the selected value changes.
+ * @param {string} [className] - The className of the component.
+ * @param {string} [itemClassName] - The className of each item in the dropdown list.
+ * @param {string} [ariaLabel] - The aria label of the component.
+ *
+ * @returns A Select component with the given options and value.
+ */
 export function Select<V>({
     options,
     value,

@@ -1,3 +1,8 @@
+/**
+ * Format data point for uterus chart.
+ * @param {any} params - data point object.
+ * @returns {string} - formatted string.
+ */
 export function formatUterusTime(params: any) {
     const dataPoint = params[0];
     const time = dataPoint.axisValue;

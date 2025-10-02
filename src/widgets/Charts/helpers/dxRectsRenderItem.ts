@@ -1,4 +1,28 @@
-// helpers/dxRectsRenderItem.ts
+/**
+ * dxRectsRenderItem - item renderer for dxRects component.
+ *
+ * @param {Object} params - renderer parameters.
+ * @param {Object} api - echarts API.
+ *
+ * @return {Object} - rendered item.
+ *
+ * @example
+ * const item = dxRectsRenderItem({
+ *   coordSys: {
+ *     x: 0,
+ *     y: 0,
+ *     width: 100,
+ *     height: 100
+ *   }
+ * }, api);
+ *
+ * @remarks
+ * This function renders a single item for dxRects component.
+ * The item is a group containing a rectangle and a text.
+ * The rectangle has a label and is rendered with a shadow.
+ * The text is rendered with a vertical align of middle.
+ * The text has a max width of 40px and an overflow of break.
+ */
 export function dxRectsRenderItem(params: any, api: any) {
   const start = api.value(0);
   const end   = api.value(1);
@@ -6,32 +30,26 @@ export function dxRectsRenderItem(params: any, api: any) {
   const y1    = api.value(3);
   const label = String(api.value(4));
 
-  // координаты грида в пикселях
   const gx = params.coordSys.x;
   const gy = params.coordSys.y;
   const gw = params.coordSys.width;
   const gh = params.coordSys.height;
   const gxr = gx + gw;
   const gyr = gy + gh;
-
-  // пробуем перевести X в пиксели (верхняя кромка, чтобы иметь Y)
+  
   const pStartTop = api.coord([start, y1]); // [x, yTop]
   const pEndTop   = api.coord([end,   y1]); // [x, yTop]
 
-  // если обе X за пределами — прямоугольник весь вне окна
   if ((Number.isNaN(pStartTop[0]) && Number.isNaN(pEndTop[0]))) return null;
 
-  // безопасный X (тот, что внутри окна) — по нему посчитаем Y в пикселях
   const safeXData = Number.isNaN(pEndTop[0]) ? start : end;
   const safeTop   = api.coord([safeXData, y1])[1];
   const safeBot   = api.coord([safeXData, y0])[1];
   if (Number.isNaN(safeTop) || Number.isNaN(safeBot)) return null;
 
-  // получаем X в пикселях с заменой NaN на края грида
   const startX = Number.isNaN(pStartTop[0]) ? gx  : pStartTop[0];
   const endX   = Number.isNaN(pEndTop[0])   ? gxr : pEndTop[0];
 
-  // упорядочим и вырежем по гриду
   const leftPx   = Math.max(gx,  Math.min(startX, endX));
   const rightPx  = Math.min(gxr, Math.max(startX, endX));
   const topPx    = Math.max(gy,  Math.min(safeTop, safeBot));
@@ -65,7 +83,7 @@ export function dxRectsRenderItem(params: any, api: any) {
           textFill: 'rgba(0,120,131,1)',
           fontFamily: 'Gilroy',
           fontSize: 12,
-          width: Math.max(40, w - 16), // авто-перенос по ширине карточки
+          width: Math.max(40, w - 16),
           lineHeight: 14,
           overflow: 'break'
         }

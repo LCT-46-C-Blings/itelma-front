@@ -1,14 +1,20 @@
 import type EChartsReact from "echarts-for-react";
 import type { UterusData } from "../../../entities/detector/types/UterusData";
-import { lazy } from "react";
 import type { BpmData } from "../../../entities/detector/types/BpmData";
 
+/**
+ * Updates the chart with new data.
+ * If the new data is not undefined, it will append the new data to the chart.
+ * It will also update the zoomRef with the start, end, startValue, and endValue of the zoomed region.
+ * @param {React.RefObject<EChartsReact>} chartRef - A reference to the ECharts React component.
+ * @param {(UterusData | BpmData) | undefined} newData - The new data to append to the chart.
+ * @param {React.RefObject<{ start: number, end: number, startValue: number, endValue: number }>} zoomRef - A reference to an object that will be updated with the zoomed region.
+ * @param {"bpm" | "uterus"} type - The type of the new data.
+ */
 export const onNewData = (
     chartRef: React.RefObject<EChartsReact>,
     newData: UterusData | BpmData | undefined,
     zoomRef: React.RefObject<{ start: number, end: number, startValue: number, endValue: number }>,
-    min: number,
-    max: number,
     type: "bpm" | "uterus"
 ) => {
 

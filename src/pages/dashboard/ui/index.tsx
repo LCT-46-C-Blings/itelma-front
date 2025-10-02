@@ -1,15 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ContentBlock from "../../../shared/ui/blocks/ContentBlock";
 import Grid8x4 from "../../../shared/ui/layout/Grid8x4";
 import PatientInfo from "../../../widgets/PatientInfo/ui";
-import { example, type Patient } from "../../../entities/patient/types/Patient";
 import BpmChart from "../../../widgets/BpmChart/ui";
 import UterusChart from "../../../widgets/UterusChart/ui";
-import { useWebSocketDemo } from "../../../shared/hooks/useWebSocket";
-import { demoData } from "../../../widgets/BpmChart/api/sample";
 import { useDetectorStore } from "../../../entities/detector/stores/useDetectorStore";
-import type { BpmData } from "../../../entities/detector/types/BpmData";
-import type { UterusData } from "../../../entities/detector/types/UterusData";
 import { CtgLiveDetector } from "ctg-live-detector-ts";
 import ChartsTooltip from "../../../widgets/ChartsTooltip/ui";
 import AbnormalSegments from "../../../widgets/AbnormalSegments/ui";
@@ -17,6 +12,13 @@ import { useRoute } from "wouter";
 import { usePatientStore } from "../../../entities/patient/stores/usePatientStore";
 import { useWebSocket } from "../../../widgets/Charts/api/useWebSocket";
 
+/**
+ * Dashboard page that displays the patient's information, bpm chart, uterus chart, abnormal segments, and charts tooltip.
+ * The page is rendered based on the patientId and appointmentId passed in the url parameters.
+ * If the appointmentId is -1 or undefined, the page will not display any data.
+ * If the appointmentId is valid, the page will display the patient's information, bpm chart, uterus chart, abnormal segments, and charts tooltip.
+ * The page will also establish a websocket connection to receive the bpm and uterus data in real-time.
+ */
 const DashboardPage = () => {
     const [match, params] = useRoute("/dashboard/:patientId/:appointmentId");
     if (!match) return null;

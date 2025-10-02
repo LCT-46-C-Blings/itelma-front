@@ -5,6 +5,13 @@ import InfoBlock from "../../../shared/ui/blocks/InfoBlock";
 import Button from "../../../shared/ui/button/Button";
 import { useChartsStore } from "../../Charts/stores/useChartsStore";
 
+/**
+ * Component for displaying a tooltip with information about the current zoomed in segment on the chart.
+ *
+ * @param {string} [className] Optional CSS class name for the component.
+ *
+ * @returns {React.ReactElement} A React element representing the component.
+ */
 const ChartsTooltip: React.FC<{
     className?: string
 }> = (props) => {

@@ -1,5 +1,4 @@
 import { usePatientStore } from "../../../entities/patient/stores/usePatientStore"
-import type { Patient } from "../../../entities/patient/types/Patient"
 import type { ContentBlockProps } from "../../../shared/ui/blocks/ContentBlock"
 import ContentBlock from "../../../shared/ui/blocks/ContentBlock"
 import Flex from "../../../shared/ui/blocks/Flex"
@@ -8,6 +7,17 @@ import Title from "../../../shared/ui/Typography/Title"
 import Anamnesis from "../../Anamnesis/Anamnesis"
 import PatientAppointment from "../../PatientAppointment/ui"
 
+
+/**
+ * A component that renders a patient's information.
+ * It displays the patient's id, appointment, anamnesis and an Itelma logo.
+ *
+ * The component accepts a className prop which is used to add additional CSS classes to the component.
+ * The component renders its children inside a Flex component with a column direction.
+ * The component is a wrapper around the Flex component and provides default CSS styles for the patient info block.
+ * @param {ContentBlockProps} props - The props object with a className prop.
+ * @returns {JSX.Element} - The rendered component.
+ */
 const PatientInfo: React.FC<ContentBlockProps> = ({ className, ...props }) => {
     const patient = usePatientStore(state => state.patient)
     if (!patient) return null

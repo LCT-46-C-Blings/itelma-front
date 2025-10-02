@@ -6,9 +6,15 @@ import { getBaseOption } from "../helpers/getBaseOption"
 import { markAbnormalSegments } from "../helpers/markAbnormalSegments"
 import { onNewData } from "../helpers/onNewData"
 import { getOnEvents } from "../helpers/getOnEvents"
-import { shallow } from "zustand/shallow"
 import { useChartsStore, type ChartsStore } from "../stores/useChartsStore"
 
+/**
+ * A React component that renders a CTGChart with a type of either "bpm" or "uterus".
+ * Accepts a className prop to allow for custom styling.
+ *
+ * @param {string} [className] Optional CSS class name for the component.
+ * @param {"bpm" | "uterus"} type The type of CTG data to be rendered.
+ */
 const CTGChart: React.FC<{
     className?: string
     type: "bpm" | "uterus"
@@ -20,16 +26,6 @@ const CTGChart: React.FC<{
     const newData = useDetectorStore ((state: DetectorStore) => {
         if (props.type === "bpm") return state.lastBpmData;
         return state.lastUterusData;
-    });
-
-    const min = useDetectorStore((state: DetectorStore) => {
-        if (props.type === "bpm") return state.minBpm;
-        return state.minUterus;
-    });
-
-    const max = useDetectorStore((state: DetectorStore) => {
-        if (props.type === "bpm") return state.maxBpm;
-        return state.maxUterus;
     });
 
     const segmentsQueue = useDetectorStore((state: DetectorStore) => {
@@ -54,7 +50,7 @@ const CTGChart: React.FC<{
     }, [zoomRef.current])
 
     useEffect(() => {
-        onNewData(chartRef as any, newData, zoomRef, min, max, props.type);
+        onNewData(chartRef as any, newData, zoomRef, props.type);
     }, [newData])
 
     useEffect(() => {

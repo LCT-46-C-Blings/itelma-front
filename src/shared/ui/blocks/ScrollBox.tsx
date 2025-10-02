@@ -2,6 +2,14 @@ import React, { Fragment } from "react"
 import Divider from "../Divider/Divider"
 import Flex from "./Flex"
 
+/**
+ * A component that renders a scrollable box with a white background and rounded corners.
+ * It applies padding and margin to the box.
+ * The component renders its children inside a Flex component with a column direction.
+ * The component is a wrapper around the Flex component and provides default CSS styles for the box.
+ * @param {string} className - The class name to be applied to the component.
+ * @param {React.ReactNode} children - The children of the component.
+ */
 const ScrollBox: React.FC<{
     className?: string,
     children?: React.ReactNode,

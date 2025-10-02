@@ -1,14 +1,17 @@
-import { useCallback, useMemo, useState } from "react"
-import type { Patient } from "../../../entities/patient/types/Patient"
+import { useCallback } from "react"
 import AppointmentSelector from "../../../features/changeAppointment/ui/AppointmentSelector"
 import Flex from "../../../shared/ui/blocks/Flex"
 import InfoBlock from "../../../shared/ui/blocks/InfoBlock"
 import Title from "../../../shared/ui/Typography/Title"
-import type { Appointment } from "../../../entities/appointment/types/Appointment"
 import { timecodeToTime } from "../../../shared/lib/formatDate"
 import { usePatientStore } from "../../../entities/patient/stores/usePatientStore"
 import Button from "../../../shared/ui/button/Button"
 
+/**
+ * Component for displaying a patient's appointment.
+ * 
+ * @returns {React.ReactElement} A React element representing the component.
+ */
 const PatientAppointment: React.FC<{}> = () => {
 
     const patient = usePatientStore(state => state.patient)

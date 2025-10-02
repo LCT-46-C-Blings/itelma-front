@@ -1,5 +1,10 @@
-import Flex from "../blocks/Flex"
-
+/**
+ * Button component.
+ * @param {string} [className] - Additional CSS classes.
+ * @param {() => void} [onClick] - Click handler.
+ * @param {React.ReactNode} [children] - Button content.
+ * @returns {React.ReactElement} - Button element.
+ */
 const Button: React.FC<{
     className?: string
     onClick?: () => void

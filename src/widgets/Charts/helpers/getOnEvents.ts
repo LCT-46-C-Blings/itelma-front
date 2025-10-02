@@ -1,5 +1,12 @@
 import type EChartsReact from "echarts-for-react";
 
+/**
+ * A utility function to be used in conjunction with the `dataZoom` event of ECharts.
+ * It will update the `zoomRef` with the start, end, startValue, and endValue of the zoomed region.
+ * @param {React.RefObject<EChartsReact>} chartRef - A reference to the ECharts React component.
+ * @param {React.RefObject<{ start: number, end: number, startValue: number, endValue: number }>} zoomRef - A reference to an object that will be updated with the zoomed region.
+ * @returns {dataZoom: (params: any) => void} - A function that will be called when the `dataZoom` event is triggered.
+ */
 export const getOnEvents = (chartRef: React.RefObject<EChartsReact>, zoomRef: React.RefObject<{ start: number, end: number, startValue: number, endValue: number }>) => {
     return {
         dataZoom: (params: any) => {

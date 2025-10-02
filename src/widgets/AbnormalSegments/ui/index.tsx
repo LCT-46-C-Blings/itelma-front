@@ -5,6 +5,13 @@ import Flex from "../../../shared/ui/blocks/Flex";
 import Button from "../../../shared/ui/button/Button";
 import { useChartsStore } from "../../Charts/stores/useChartsStore";
 
+/**
+ * Component for displaying a list of abnormal segments of a patient's CTG data.
+ *
+ * @param {string} [className] Optional CSS class name for the component.
+ *
+ * @returns {React.ReactElement} A React element representing the component.
+ */
 const AbnormalSegments: React.FC<{
     className?: string
 }> = (props) => {

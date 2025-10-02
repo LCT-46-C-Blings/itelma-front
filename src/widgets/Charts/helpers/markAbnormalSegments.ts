@@ -3,6 +3,14 @@ import type { BpmData } from "../../../entities/detector/types/BpmData";
 import { formatDiagnosis, type FhrSegment, type UterusSegment } from "ctg-live-detector-ts";
 import type { UterusData } from "../../../entities/detector/types/UterusData";
 
+/**
+ * Marks an abnormal segment on the chart.
+ *
+ * @param {React.RefObject<EChartsReact>} chartRef - The reference to the ECharts instance.
+ * @param {FhrSegment | UterusSegment} segment - The abnormal segment to mark.
+ * @param {BpmData[] | UterusData[]} data - The data points that make up the chart.
+ * @param {"bpm" | "uterus"} type - The type of chart.
+ */
 export const markAbnormalSegments = (
     chartRef: React.RefObject<EChartsReact>,
     segment: FhrSegment | UterusSegment,

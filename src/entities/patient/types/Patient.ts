@@ -1,5 +1,4 @@
 import type { Appointment } from "../../appointment/types/Appointment";
-import type { BloodGases } from "./BloodGases";
 
 export type Patient = {
     id: number;

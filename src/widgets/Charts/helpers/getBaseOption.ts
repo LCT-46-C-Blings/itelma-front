@@ -1,7 +1,14 @@
-import { graphic, throttle } from "echarts";
+import { graphic } from "echarts";
 import { formatUterusTime } from "../../UterusChart/helpers/formatters";
 import { formatBpmTime } from "../../BpmChart/helpers/formatters";
 
+/**
+ * Returns base ECharts option for BPM or uterus chart.
+ * 
+ * @param {string} type - type of chart, either "bpm" or "uterus".
+ * 
+ * @returns {object} - base ECharts option.
+ */
 export function getBaseOption(type: "bpm" | "uterus") {
     return {
         animation: false,

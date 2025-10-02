@@ -1,8 +1,14 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import type { Appointment } from "../../../entities/appointment/types/Appointment"
 import { Select, type Option } from "../../../shared/ui/input/Select";
 import { timecodeToDate } from "../../../shared/lib/formatDate";
 
+/**
+ * Appointment selector component
+ * @param {Appointment[]} appointments - List of appointments
+ * @param {number} selectedId - Selected appointment id
+ * @param {(id: number) => void} onChangeSelectedId - Callback when selected appointment id changes
+ */
 const AppointmentSelector: React.FC<{
     appointments: Appointment[]
     selectedId: number;
