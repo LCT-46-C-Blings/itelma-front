@@ -9,7 +9,7 @@ const Anamnesis: React.FC<{
     return (
         <Flex className="flex-col gap-10px">
             <Title order={2}>Анамнез</Title>
-            <ScrollBox className="max-h-400px" children={anamnesis.map((a, i) =>
+            <ScrollBox className={"h-[calc(100vh-128px-95px-400px-20px)]"} children={anamnesis.map((a, i) =>
                 <>
                     <p key={i} className="p-0 m-0 font-size-16px">
                         {a}

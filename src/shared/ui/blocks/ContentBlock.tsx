@@ -6,7 +6,7 @@ export type ContentBlockProps = {
 }
 
 const ContentBlock: React.FC<ContentBlockProps> = (props) => {
-    console.log(props.className)
+    // console.log(props.className)
     return (
         <Flex className={`
             bg-#F5F5F5
