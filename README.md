@@ -12,6 +12,7 @@
 * 🎨 [UnoCSS](https://uno.antfu.me/) — атомарный CSS-фреймворк
 * 🧩 Feature-Sliced Design (FSD) — методология организации кода
 * 🐳 Docker — контейнеризация приложения
+* Самописный детектор диагнозов по данным КТГ - https://www.npmjs.com/package/ctg-live-detector-ts
 
 ---
 
