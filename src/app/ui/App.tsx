@@ -7,7 +7,9 @@ function App() {
 			<Route path="/dashboard/:patientId/:appointmentId">
 				<DashboardPage />
 			</Route>
-			
+			<Route path="/">
+				<DashboardPage />
+			</Route>
 		</>
 	)
 }

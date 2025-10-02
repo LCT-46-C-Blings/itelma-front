@@ -7,18 +7,19 @@
  */
 const Title: React.FC<{
     order?: 1 | 2 | 3 | 4 | 5 | 6
-    children?: React.ReactNode
+    children?: React.ReactNode,
+    className?: string
 }> = (props) => {
 
     return (<>
         {
             props.order === 1 ?
-                <h1 className={`m-0 font-size-36px fw-700 `}
+                <h1 className={`m-0 font-size-36px fw-700 ${props.className}`}
                 >
                     {props.children}
                 </h1> :
                 props.order === 2 ?
-                    <h2 className="m-0 font-size-24px fw-200">
+                    <h2 className={"m-0 font-size-24px fw-200 " + props.className}>
                         {props.children}
                     </h2> :
                     props.order === 3 ?

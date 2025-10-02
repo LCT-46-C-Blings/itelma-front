@@ -4,6 +4,8 @@ import ContentBlock from "../../../shared/ui/blocks/ContentBlock"
 import Flex from "../../../shared/ui/blocks/Flex";
 import Button from "../../../shared/ui/button/Button";
 import { useChartsStore } from "../../Charts/stores/useChartsStore";
+import Title from "../../../shared/ui/Typography/Title";
+import Divider from "../../../shared/ui/Divider/Divider";
 
 /**
  * Component for displaying a list of abnormal segments of a patient's CTG data.
@@ -22,6 +24,8 @@ const AbnormalSegments: React.FC<{
 
     return (
         <ContentBlock className={"flex flex-col overflow-y-scroll overflow-x-hidden pt-20px! pb-20px! px-20px! gap-10px! " + props.className}>
+            <Title order={2} className="ml-10px mt-10px">Подозрения</Title>
+            <Divider />
             {abnormalSegments.map((segment: FhrSegment | UterusSegment, i) => {
                 return (
                     <Button className="w-full p-0!" onClick={() => {  setZoomValues(getSegmentChartType(segment), { start: 0, end: 0, startValue: Math.max(segment.startTime - 20, 0), endValue: segment.endTime + 20 })}}>

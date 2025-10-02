@@ -39,9 +39,9 @@ export const markAbnormalSegments = (
     const s = (opt.series as any || []).find((x: any) => x.id === 'diagnosis');
     const currentAreas = s?.markArea?.data || [];
 
-    console.log(segment)
-    console.log(data)
-    console.log(opt)
+    // console.log(segment)
+    // console.log(data)
+    // console.log(opt)
     chart.setOption({
         visualMap: {
             pieces: [

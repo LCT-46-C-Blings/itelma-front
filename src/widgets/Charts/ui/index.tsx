@@ -7,13 +7,17 @@ import { markAbnormalSegments } from "../helpers/markAbnormalSegments"
 import { onNewData } from "../helpers/onNewData"
 import { getOnEvents } from "../helpers/getOnEvents"
 import { useChartsStore, type ChartsStore } from "../stores/useChartsStore"
+import { onSnapshot } from "../helpers/onSnapshot"
+
 
 /**
  * A React component that renders a CTGChart with a type of either "bpm" or "uterus".
- * Accepts a className prop to allow for custom styling.
- *
+ * It accepts an optional className prop to allow for custom styling.
+ * 
  * @param {string} [className] Optional CSS class name for the component.
- * @param {"bpm" | "uterus"} type The type of CTG data to be rendered.
+ * @param {"bpm" | "uterus"} type The type of the chart. Either "bpm" or "uterus".
+ * 
+ * @returns {React.ReactElement} A React element representing the component.
  */
 const CTGChart: React.FC<{
     className?: string
@@ -22,6 +26,16 @@ const CTGChart: React.FC<{
 
     const chartRef = useRef<EChartsReact>(null)
     const zoomRef = useRef({ start: 0, end: 100, startValue: 0, endValue: +Infinity });
+
+    const data = useDetectorStore((state: DetectorStore) => {
+        if (props.type === "bpm") return state.bpmData;
+        return state.uterusData;
+    });
+
+    const snapshot = useDetectorStore((state: DetectorStore) => {
+        if (props.type === "bpm") return state.loadedBpmSnapshot;
+        return state.loadedUterusSnapshot;
+    });
 
     const newData = useDetectorStore ((state: DetectorStore) => {
         if (props.type === "bpm") return state.lastBpmData;
@@ -65,6 +79,21 @@ const CTGChart: React.FC<{
             );
         }
     }, [segmentsQueue.length])
+
+    useEffect(() => {
+        if (data.length == 0) {
+            // console.log('chart cleared')
+            chartRef.current?.getEchartsInstance().setOption({
+                series: {
+                    data: []
+                }
+            })
+        }
+    }, [data.length])
+
+    useEffect(() => {
+        onSnapshot(chartRef as any, snapshot, props.type);
+    }, [snapshot.length])
 
     const option = useMemo(() => { return getBaseOption(props.type) }, []);
 

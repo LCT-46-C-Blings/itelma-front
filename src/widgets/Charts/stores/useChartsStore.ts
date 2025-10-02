@@ -37,7 +37,7 @@ export const useChartsStore = create<ChartsStore>((set, get) => ({
      */
     setZoomValues: (zoom, values) => {
         const { bpm, uterus } = get().zoomRefs;
-        console.log(zoom, values, bpm, uterus);
+        // console.log(zoom, values, bpm, uterus);
         if (zoom === "bpm" && bpm) bpm.current = values;
         if (zoom === "uterus" && uterus) uterus.current = values;
         set({ lastUsedZoom: zoom });

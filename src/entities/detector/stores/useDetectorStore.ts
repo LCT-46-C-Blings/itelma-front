@@ -14,6 +14,7 @@ export type DetectorStore = {
 
     bpmData: BpmData[];
     lastBpmData: BpmData | undefined;
+    loadedBpmSnapshot: BpmData[];
     maxBpm: number;
     minBpm: number;
     pushBpmData: (data: BpmData) => void;
@@ -21,6 +22,7 @@ export type DetectorStore = {
 
     uterusData: UterusData[];
     lastUterusData: UterusData | undefined;
+    loadedUterusSnapshot: UterusData[];
     maxUterus: number;
     minUterus: number;
     pushUterusData: (data: UterusData) => void;
@@ -39,6 +41,9 @@ export type DetectorStore = {
     allSegments: (FhrSegment | UterusSegment)[];
     getSegmentChartType: (segment: FhrSegment | UterusSegment) => "bpm" | "uterus";
     clear: () => void
+
+    loadBpmSnapshot: (snapshot: BpmData[]) => void
+    loadUterusSnapshot: (snapshot: UterusData[]) => void
 }
 
 export const useDetectorStore = create<DetectorStore>((set, get) => ({
@@ -48,6 +53,7 @@ export const useDetectorStore = create<DetectorStore>((set, get) => ({
 
     bpmData: [],
     lastBpmData: undefined,
+    loadedBpmSnapshot: [],
     maxBpm: 0,
     minBpm: 300,
     /**
@@ -56,7 +62,7 @@ export const useDetectorStore = create<DetectorStore>((set, get) => ({
      * @param {BpmData} data - The new BpmData to push.
      */
     pushBpmData: (data: BpmData) => {
-        console.log(data)
+        // console.log(data)
         set((state: DetectorStore) => {
             if (state.detector) {
                 const seg = state.detector.pushFhr(data);
@@ -78,6 +84,7 @@ export const useDetectorStore = create<DetectorStore>((set, get) => ({
 
     uterusData: [],
     lastUterusData: undefined,
+    loadedUterusSnapshot: [],
     maxUterus: 0,
     minUterus: 300,
     /**
@@ -187,5 +194,10 @@ export const useDetectorStore = create<DetectorStore>((set, get) => ({
         uterusSegments: [],
         uterusSegmentsQueue: [],
         allSegments: [],
-    })
+        loadedBpmSnapshot: [],
+        loadedUterusSnapshot: []
+    }),
+
+    loadBpmSnapshot: (snapshot: BpmData[]) => set({ bpmData: snapshot, loadedBpmSnapshot: snapshot }),
+    loadUterusSnapshot: (snapshot: UterusData[]) => set({ uterusData: snapshot, loadedUterusSnapshot: snapshot }),
 }));

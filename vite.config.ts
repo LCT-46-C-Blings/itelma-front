@@ -5,7 +5,7 @@ import UnoCSS from 'unocss/vite'
 
 export default defineConfig({
   plugins: [react(), UnoCSS()],
-  root: 'src/app/ui',    
+  root: 'src/app/ui',
   publicDir: '../../../public',
   optimizeDeps: {
     esbuildOptions: {
@@ -13,6 +13,9 @@ export default defineConfig({
     },
   },
   resolve: {
-    alias: { buffer: "buffer" },
+    alias: {
+      buffer: "buffer",
+      'ctg-live-detector-ts': 'ctg-live-detector-ts/dist/index.js'
+    },
   },
 })

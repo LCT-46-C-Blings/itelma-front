@@ -23,7 +23,7 @@ export function useWebSocket(wsUrl: string, onData: (data: any) => void) {
         wsRef.current = new WebSocket(wsUrl);
 
         wsRef.current.onopen = () => {
-            console.log('WebSocket connected');
+            // console.log('WebSocket connected');
         };
 
 
@@ -37,7 +37,7 @@ export function useWebSocket(wsUrl: string, onData: (data: any) => void) {
             }
         };
 
-        wsRef.current.onclose = () => console.log('WebSocket closed');
+        wsRef.current.onclose = () =>  console.log('WebSocket closed');
         wsRef.current.onerror = (err) => console.error('WebSocket error', err);
 
         return () => {
@@ -65,7 +65,7 @@ export async function useWebSocketDemo(wantedData: any, onData: (data: any) => v
  * @param {(data: any) => void} onData - The callback function to be called
  */
     for (let data of wantedData) {
-        // console.log(data);
+        // // console.log(data);
         onData(data);
         await new Promise(resolve => setTimeout(resolve, 1));
     }

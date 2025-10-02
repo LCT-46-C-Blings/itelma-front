@@ -46,7 +46,7 @@ export function Select<V>({
     const rootRef = useRef<HTMLDivElement>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const listRef = useRef<HTMLDivElement>(null);
-
+ 
     const selected = value !== undefined ? value : internal;
 
     const selectedLabel = useMemo(() => {
@@ -97,11 +97,11 @@ export function Select<V>({
         setInternal(opt.value);
         setOpen(false);
     };
-
+    // console.log(selected, selectedLabel)
     return (
         <div
             ref={rootRef}
-            className={`relative ${className} w-full`}
+            className={`relative w-full fz-16px ${className}`}
         >
             <button
                 ref={buttonRef}
@@ -113,14 +113,14 @@ export function Select<V>({
                 className={
                     `w-full h-16 px-6 rounded-lg bg-white
                     flex items-center justify-between
-                    border-0 outline-none box-border
+                    border-0 outline-none box-border font-size-inherit
                     transition-all duration-100 cursor-pointer`
                 }
                 style={open ? {
                     outline: "1px solid #00A7B5"
                 } : {}}
             >
-                <span className={`truncate font-size-16px fw-400 ${selected ? "text-black" : "text-gray-500"}`}>
+                <span className={`truncate fw-400 font-size-inherit ${selected ? "text-black" : "text-gray-500"}`}>
                     {selected ? selectedLabel : placeholder}
                 </span>
                 <svg
@@ -137,7 +137,7 @@ export function Select<V>({
                 className={`
                     absolute left-0 right-0 mt-2 z-50
                     origin-top rounded-lg bg-white shadow-lg
-                    max-h-72 overflow-auto p-1
+                    max-h-72 overflow-auto p-1 font-size-inherit
                     transition duration-150 ease-out
                     ${open ? "opacity-100 scale-100 pointer-events-auto" : "opacity-0 scale-95 pointer-events-none"}
                 `}
@@ -157,7 +157,7 @@ export function Select<V>({
                                 transition-colors
                                 outline-none
                                 border-0
-                                font-size-16px
+                                fz-inherit
                                 ${opt.disabled ? "opacity-50 cursor-not-allowed" : "hover:bg-gray/10"}
                                 ${isSel ? "bg-gray/10" : "bg-white"}
                                 focus-visible:(outline outline-1 outline-[#00A7B5])

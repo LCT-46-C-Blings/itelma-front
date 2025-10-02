@@ -15,12 +15,11 @@ import Button from "../../../shared/ui/button/Button"
 const PatientAppointment: React.FC<{}> = () => {
 
     const patient = usePatientStore(state => state.patient)
-    if (!patient) return null
 
     const selectedAppointment = usePatientStore(state => state.appointment)
     const setAppointment = usePatientStore(state => state.setAppointment)
     const createAppointment = usePatientStore(state => state.createAppointment)
-
+    const completeAppointment = usePatientStore(state => state.completeAppointment)
 
     const onChangeSelectedId = useCallback(
         (id: number) => setAppointment(id), []
@@ -31,8 +30,8 @@ const PatientAppointment: React.FC<{}> = () => {
         <Flex className="flex-col gap-10px">
             <Title order={2}>Прием</Title>
             <AppointmentSelector
-                appointments={patient.appointments}
-                selectedId={selectedAppointment?.id ?? 0}
+                appointments={patient?.appointments || []}
+                selectedId={selectedAppointment?.id ?? -1}
                 onChangeSelectedId={onChangeSelectedId}
             />
             <Flex className="flex-row gap-10px">
@@ -44,13 +43,13 @@ const PatientAppointment: React.FC<{}> = () => {
                             selectedAppointment.endTime ?
                                 <InfoBlock value={timecodeToTime(selectedAppointment.endTime)} label="Конец" className="w-1/2" />
                                 :
-                                <Button className="w-1/2 h-full">
+                                <Button className="w-1/2 h-full" onClick={completeAppointment}>
                                     <p className="p-0 m-0 font-size-16px color-#00A7B5">Завершить</p>
                                 </Button>
                         }
                     </>
                     : <>
-                        <Button className="w-full" onClick={createAppointment}>
+                        <Button className="w-full" onClick={() => {createAppointment()}}>
                             <p className="p-0 m-0 font-size-16px color-#00A7B5">Начать прием</p>
                         </Button>
                     </> 

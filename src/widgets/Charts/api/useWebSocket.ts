@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { io, type Socket } from "socket.io-client";
+import { usePatientStore } from "../../../entities/patient/stores/usePatientStore";
 
 type Channel = "fhr" | "uc";
 
@@ -39,12 +40,14 @@ export function useWebSocket(
         baseUrl = "http://localhost:5050",
         visitId,
         loop = false,
-        transports = ["polling"],
         extraQuery,
     }: Options
 ) {
     const socketRef = useRef<Socket | null>(null);
     const [connected, setConnected] = useState(false);
+    const transports = useMemo(() => ["websocket"], []);
+
+    const appointment = usePatientStore(state => state.appointment)
 
     const namespaceUrl = useMemo(
         () => `${baseUrl.replace(/\/+$/, "")}/ws/records/${channel}`,
@@ -65,6 +68,8 @@ export function useWebSocket(
     }, [visitId, loop, extraQuery]);
 
     useEffect(() => {
+        // console.log('ws', visitId)
+        if (visitId === undefined || visitId === -1) return;
         const socket = io(namespaceUrl, {
             transports,
             query,
@@ -91,7 +96,7 @@ export function useWebSocket(
         });
 
         socket.on("connect_error", (err: any) => {
-            console.log(err)
+            // console.log(err)
             onData({ type: "error", message: "connect_error", payload: err?.message ?? err });
         });
 
@@ -122,6 +127,13 @@ export function useWebSocket(
             }
         });
 
+        socket.on("emulator:finished", () => {
+            setConnected(false);
+            socket.removeAllListeners();
+            socket.disconnect();
+            onData({ type: "disconnect", reason: "emulator_finished" });
+        });
+
         return () => {
             try {
                 socket.removeAllListeners();
@@ -133,7 +145,10 @@ export function useWebSocket(
     }, [namespaceUrl, transports, query, channel, onData]);
 
     const disconnect = () => {
+        if (!socketRef.current) return;
+        socketRef.current.removeAllListeners();
         socketRef.current?.disconnect();
+        setConnected(false);
     };
     const reconnect = () => {
         if (!socketRef.current) return;
@@ -141,7 +156,13 @@ export function useWebSocket(
             socketRef.current.disconnect();
         }
         socketRef.current.connect();
-    };    
+    };
+
+    useEffect(() => {
+        if (appointment?.endTime) {
+            disconnect()
+        }
+    }, [appointment?.endTime])
 
     return { connected, disconnect, reconnect, socketRef: socketRef };
 }

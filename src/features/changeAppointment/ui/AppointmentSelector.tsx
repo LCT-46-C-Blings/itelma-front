@@ -14,7 +14,7 @@ const AppointmentSelector: React.FC<{
     selectedId: number;
     onChangeSelectedId: (id: number) => void;
 }> = (({ appointments, selectedId, onChangeSelectedId }) => {
-
+    // console.log(selectedId)
     const options = useMemo<Option<number>[]>(
         () => {
             const res = [{
@@ -37,7 +37,7 @@ const AppointmentSelector: React.FC<{
 
     return (
         <Select<number>
-            defaultValue={selectedId}
+            value={selectedId}
             placeholder="Выберите прием"
             onChange={handleChange}
             options={options}

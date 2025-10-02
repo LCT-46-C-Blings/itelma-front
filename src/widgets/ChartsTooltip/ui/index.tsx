@@ -34,7 +34,7 @@ const ChartsTooltip: React.FC<{
                 />
                 <InfoBlock
                     value={`${lastUterusData ? Math.round(lastUterusData.uterus) : ''}`}
-                    label="Uterus"
+                    label="Матка"
                     className="w-full gap-0! p-20px!"
                     valueClassName="w-full text-align-right lh-24px"
                     labelClassName="lh-16px"
